@@ -1,0 +1,898 @@
+{
+  "approval_required": {
+    "status": "AWAITING_APPROVAL",
+    "code": "APPROVAL_REQUIRED",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "verifier",
+        "event": "VALIDATED",
+        "detail": "References, field values and fixture dates match. This is consistency, not real-world truth validation."
+      },
+      {
+        "role": "controller",
+        "event": "AWAITING_APPROVAL",
+        "detail": "Validation passed; the local fixture write remains blocked."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "approval_required",
+    "title": "Approval required",
+    "total_writes": 0
+  },
+  "approved": {
+    "status": "APPLIED",
+    "code": "LOCAL_WRITE_ONLY",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "verifier",
+        "event": "VALIDATED",
+        "detail": "References, field values and fixture dates match. This is consistency, not real-world truth validation."
+      },
+      {
+        "role": "controller",
+        "event": "APPROVED",
+        "detail": "Local demo approval matches the payload digest; no identity authentication is performed."
+      },
+      {
+        "role": "operator",
+        "event": "APPLIED",
+        "detail": "One write to an in-memory synthetic CRM record. No external CRM was contacted."
+      },
+      {
+        "role": "controller",
+        "event": "APPLIED",
+        "detail": "Completed within the local demo boundary."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 1,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {
+      "synthetic-company-001": {
+        "company_name": "Orchard Demo Company",
+        "open_roles": 2,
+        "country": "GB"
+      }
+    },
+    "ledger_entries": 1,
+    "scenario": "approved",
+    "title": "Approved local write",
+    "total_writes": 1
+  },
+  "missing_source": {
+    "status": "BLOCKED",
+    "code": "SOURCE_MISSING",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "A claim has no usable fixture source reference."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "missing_source",
+    "title": "Missing source",
+    "total_writes": 0
+  },
+  "unsupported_claim": {
+    "status": "BLOCKED",
+    "code": "UNSUPPORTED_CLAIM",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "Claim does not match its cited fixture field."
+      }
+    ],
+    "payload_digest": "39e563ca6344ba1195f82b259cc98b7bc1bb7a61bdcf6eae442520b6a1598f60",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 999,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "unsupported_claim",
+    "title": "Unsupported claim",
+    "total_writes": 0
+  },
+  "forbidden_tool": {
+    "status": "BLOCKED",
+    "code": "TOOL_DENIED",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "Requested tool is outside the operator allowlist."
+      }
+    ],
+    "payload_digest": "5731ce7bee37b5236ee994de42e2597c3040ea02d26b32b74a60c359dddedd9d",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "email.send",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "forbidden_tool",
+    "title": "Out-of-scope tool",
+    "total_writes": 0
+  },
+  "stale_evidence": {
+    "status": "BLOCKED",
+    "code": "STALE_EVIDENCE",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "Evidence is outside the 30-day demo freshness window."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2020-01-01",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "stale_evidence",
+    "title": "Stale evidence",
+    "total_writes": 0
+  },
+  "retry_success": {
+    "status": "APPLIED",
+    "code": "LOCAL_WRITE_ONLY",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 2/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "verifier",
+        "event": "VALIDATED",
+        "detail": "References, field values and fixture dates match. This is consistency, not real-world truth validation."
+      },
+      {
+        "role": "controller",
+        "event": "APPROVED",
+        "detail": "Local demo approval matches the payload digest; no identity authentication is performed."
+      },
+      {
+        "role": "operator",
+        "event": "APPLIED",
+        "detail": "One write to an in-memory synthetic CRM record. No external CRM was contacted."
+      },
+      {
+        "role": "controller",
+        "event": "APPLIED",
+        "detail": "Completed within the local demo boundary."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 1,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {
+      "synthetic-company-001": {
+        "company_name": "Orchard Demo Company",
+        "open_roles": 2,
+        "country": "GB"
+      }
+    },
+    "ledger_entries": 1,
+    "scenario": "retry_success",
+    "title": "Transient failure, then recovery",
+    "total_writes": 1
+  },
+  "retry_exhausted": {
+    "status": "BLOCKED",
+    "code": "RETRY_EXHAUSTED",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 2/2."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "No write: evidence lookup exhausted its retry budget."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "retry_exhausted",
+    "title": "Retry limit reached",
+    "total_writes": 0
+  },
+  "replay": {
+    "status": "REPLAYED",
+    "code": "ALREADY_APPLIED",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "verifier",
+        "event": "VALIDATED",
+        "detail": "References, field values and fixture dates match. This is consistency, not real-world truth validation."
+      },
+      {
+        "role": "controller",
+        "event": "APPROVED",
+        "detail": "Local demo approval matches the payload digest; no identity authentication is performed."
+      },
+      {
+        "role": "controller",
+        "event": "REPLAYED",
+        "detail": "The same request was already applied; no second write."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {
+      "synthetic-company-001": {
+        "company_name": "Orchard Demo Company",
+        "open_roles": 2,
+        "country": "GB"
+      }
+    },
+    "ledger_entries": 1,
+    "scenario": "replay",
+    "title": "Idempotent replay",
+    "total_writes": 1,
+    "previous_run": {
+      "status": "APPLIED",
+      "write_count": 1
+    }
+  },
+  "approval_mismatch": {
+    "status": "BLOCKED",
+    "code": "APPROVAL_MISMATCH",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "verifier",
+        "event": "VALIDATED",
+        "detail": "References, field values and fixture dates match. This is consistency, not real-world truth validation."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "Approval is not bound to this exact payload."
+      }
+    ],
+    "payload_digest": "8c21c4973c312870196b0a8c998502a1f4d78997bf48f72013ef5a5ce06226e5",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-001",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {},
+    "ledger_entries": 0,
+    "scenario": "approval_mismatch",
+    "title": "Approval does not match payload",
+    "total_writes": 0
+  },
+  "conflict": {
+    "status": "BLOCKED",
+    "code": "IDEMPOTENCY_CONFLICT",
+    "trace": [
+      {
+        "role": "controller",
+        "event": "REQUESTED",
+        "detail": "Fixed synthetic request received; no external action."
+      },
+      {
+        "role": "controller",
+        "event": "SCOPED",
+        "detail": "Only evidence lookup, validation and a local fixture write are allowed."
+      },
+      {
+        "role": "researcher",
+        "event": "LOOKUP_ATTEMPT",
+        "detail": "Synthetic lookup attempt 1/2."
+      },
+      {
+        "role": "researcher",
+        "event": "COLLECTED",
+        "detail": "Loaded local fixture records; no websites were fetched."
+      },
+      {
+        "role": "verifier",
+        "event": "VALIDATED",
+        "detail": "References, field values and fixture dates match. This is consistency, not real-world truth validation."
+      },
+      {
+        "role": "controller",
+        "event": "APPROVED",
+        "detail": "Local demo approval matches the payload digest; no identity authentication is performed."
+      },
+      {
+        "role": "controller",
+        "event": "BLOCKED",
+        "detail": "This request ID already belongs to a different payload."
+      }
+    ],
+    "payload_digest": "67bc2e33d4fb1d87426d879621fdd239859f747d470f3b4a57e4f3f703cf5fc8",
+    "request": {
+      "request_id": "demo-request-001",
+      "company_id": "synthetic-company-002",
+      "requested_tool": "crm.apply_local",
+      "claims": [
+        {
+          "field": "company_name",
+          "value": "Orchard Demo Company",
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "open_roles",
+          "value": 2,
+          "source_id": "fixture-source-001"
+        },
+        {
+          "field": "country",
+          "value": "GB",
+          "source_id": "fixture-source-001"
+        }
+      ]
+    },
+    "reference_date": "2026-10-17",
+    "write_count": 0,
+    "evidence": [
+      {
+        "id": "fixture-source-001",
+        "source_url": "https://example.org/synthetic-orchard-fixture",
+        "observed_at": "2026-10-16",
+        "facts": {
+          "company_name": "Orchard Demo Company",
+          "open_roles": 2,
+          "country": "GB"
+        }
+      }
+    ],
+    "synthetic": true,
+    "local_crm": {
+      "synthetic-company-001": {
+        "company_name": "Orchard Demo Company",
+        "open_roles": 2,
+        "country": "GB"
+      }
+    },
+    "ledger_entries": 1,
+    "scenario": "conflict",
+    "title": "Request ID reused with changed payload",
+    "total_writes": 1,
+    "previous_run": {
+      "status": "APPLIED",
+      "write_count": 1
+    }
+  }
+}

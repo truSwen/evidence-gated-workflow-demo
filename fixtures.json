@@ -1,0 +1,21 @@
+{
+  "notice": "All companies, facts and records are fictional. URLs are illustrative references, never fetched.",
+  "request": {
+    "request_id": "demo-request-001",
+    "company_id": "synthetic-company-001",
+    "requested_tool": "crm.apply_local",
+    "claims": [
+      {"field": "company_name", "value": "Orchard Demo Company", "source_id": "fixture-source-001"},
+      {"field": "open_roles", "value": 2, "source_id": "fixture-source-001"},
+      {"field": "country", "value": "GB", "source_id": "fixture-source-001"}
+    ]
+  },
+  "sources": [
+    {
+      "id": "fixture-source-001",
+      "source_url": "https://example.org/synthetic-orchard-fixture",
+      "observed_at": "2026-10-16",
+      "facts": {"company_name": "Orchard Demo Company", "open_roles": 2, "country": "GB"}
+    }
+  ]
+}

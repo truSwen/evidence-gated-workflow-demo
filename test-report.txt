@@ -1,0 +1,24 @@
+Captured local Python test execution, 17 October 2026.
+Synthetic fixtures; not an independent security audit.
+
+test_approval_for_another_payload_is_rejected (test_demo.WorkflowTests) ... ok
+test_approved_payload_is_written_once (test_demo.WorkflowTests) ... ok
+test_claim_must_match_the_cited_field (test_demo.WorkflowTests) ... ok
+test_future_dated_evidence_is_rejected (test_demo.WorkflowTests) ... ok
+test_invalid_retry_budget_is_rejected (test_demo.WorkflowTests) ... ok
+test_invalid_source_date_is_rejected (test_demo.WorkflowTests) ... ok
+test_missing_approval_actor_is_rejected (test_demo.WorkflowTests) ... ok
+test_missing_source_cannot_reach_write (test_demo.WorkflowTests) ... ok
+test_out_of_scope_tool_cannot_reach_write (test_demo.WorkflowTests) ... ok
+test_repeated_request_does_not_duplicate_write (test_demo.WorkflowTests) ... ok
+test_research_role_cannot_use_the_write_tool (test_demo.WorkflowTests) ... ok
+test_retry_exhaustion_is_bounded_and_does_not_write (test_demo.WorkflowTests) ... ok
+test_reused_id_cannot_apply_a_changed_payload (test_demo.WorkflowTests) ... ok
+test_stale_evidence_cannot_reach_write (test_demo.WorkflowTests) ... ok
+test_transient_failure_recovers_inside_retry_budget (test_demo.WorkflowTests) ... ok
+test_validation_does_not_authorise_a_write (test_demo.WorkflowTests) ... ok
+
+----------------------------------------------------------------------
+Ran 16 tests in 0.002s
+
+OK
