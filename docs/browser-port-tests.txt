@@ -1,0 +1,24 @@
+
+> evidence-gated-workflow-demo@1.1.0 test:browser
+> node --test browser-port.test.js
+
+✔ browser port matches complete Python result: approval_required (62.481667ms)
+✔ browser port matches complete Python result: approved (33.965125ms)
+✔ browser port matches complete Python result: missing_source (33.023084ms)
+✔ browser port matches complete Python result: unsupported_claim (33.843375ms)
+✔ browser port matches complete Python result: forbidden_tool (34.789875ms)
+✔ browser port matches complete Python result: stale_evidence (35.569875ms)
+✔ browser port matches complete Python result: retry_success (33.818ms)
+✔ browser port matches complete Python result: retry_exhausted (33.173125ms)
+✔ browser port matches complete Python result: replay (34.170917ms)
+✔ browser port matches complete Python result: approval_mismatch (33.478916ms)
+✔ browser port matches complete Python result: conflict (32.716708ms)
+✔ unknown browser scenario is refused (0.28675ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 435.829458

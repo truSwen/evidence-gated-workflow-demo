@@ -1,0 +1,16 @@
+{
+  "name": "evidence-gated-workflow-demo",
+  "version": "1.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "node build.js",
+    "test:browser": "node --test browser-port.test.js"
+  },
+  "devDependencies": {
+    "esbuild": "0.28.2"
+  }
+}

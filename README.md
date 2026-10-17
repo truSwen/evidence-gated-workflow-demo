@@ -1,5 +1,13 @@
 # Evidence-Gated Workflow
 
+**[Try the live synthetic demo](https://tribloc-evidence-workflow.pages.dev/)** — no installation or local server required.
+
+## Hosted browser version
+
+The public site runs the JavaScript browser port, entirely within each visitor's tab. All 11 preset results, including complete traces and payload hashes, were compared with the Python implementation; 12 port tests passed including invalid-scenario refusal. All 11 public browser scenarios were exercised. The Python version below remains runnable locally. No real CRM, LLM or MCP connection is involved.
+
+Build the hosted assets with `npm ci --ignore-scripts` and `npm run build`. The `dist/` output is an explicit static asset set. [Port test report](docs/browser-port-tests.txt).
+
 An independent portfolio demonstration for Benjamin Zsigri, created on 17 October 2026 with AI assistance. This is newly prepared example code, not an extract from Tribloc or evidence of a client deployment.
 
 ## Preview

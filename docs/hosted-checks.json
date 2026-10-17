@@ -1,0 +1,57 @@
+[
+  {
+    "scenario": "approval_required",
+    "status": "AWAITING_APPROVAL",
+    "total_writes": 0
+  },
+  {
+    "scenario": "approved",
+    "status": "APPLIED",
+    "total_writes": 1
+  },
+  {
+    "scenario": "missing_source",
+    "status": "BLOCKED",
+    "total_writes": 0
+  },
+  {
+    "scenario": "unsupported_claim",
+    "status": "BLOCKED",
+    "total_writes": 0
+  },
+  {
+    "scenario": "forbidden_tool",
+    "status": "BLOCKED",
+    "total_writes": 0
+  },
+  {
+    "scenario": "stale_evidence",
+    "status": "BLOCKED",
+    "total_writes": 0
+  },
+  {
+    "scenario": "retry_success",
+    "status": "APPLIED",
+    "total_writes": 1
+  },
+  {
+    "scenario": "retry_exhausted",
+    "status": "BLOCKED",
+    "total_writes": 0
+  },
+  {
+    "scenario": "replay",
+    "status": "REPLAYED",
+    "total_writes": 1
+  },
+  {
+    "scenario": "approval_mismatch",
+    "status": "BLOCKED",
+    "total_writes": 0
+  },
+  {
+    "scenario": "conflict",
+    "status": "BLOCKED",
+    "total_writes": 1
+  }
+]
