@@ -3,9 +3,12 @@ import argparse
 import copy
 import hashlib
 import json
+import secrets
 from datetime import date
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
+
+from review import ReviewSession, review_fixture
 
 ROOT = Path(__file__).resolve().parent
 AS_OF = date(2026, 10, 17)
@@ -160,27 +163,82 @@ class Handler(BaseHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(content)
 
+    def _local_request(self):
+        allowed_hosts = {f"127.0.0.1:{self.server.server_port}", f"localhost:{self.server.server_port}"}
+        allowed_origins = {"http://" + host for host in allowed_hosts}
+        return self.headers.get("Host") in allowed_hosts and self.headers.get("Origin") in allowed_origins | {None}
+
     def do_GET(self):
-        if self.path in {"/", "/index.html"}:
-            self.send(200, (ROOT / "index.html").read_bytes(), "text/html; charset=utf-8")
+        assets = {"/": ("index.html", "text/html"), "/index.html": ("index.html", "text/html"),
+                  "/style.css": ("style.css", "text/css"), "/entry.js": ("local-entry.js", "text/javascript"),
+                  "/app.js": ("app.js", "text/javascript")}
+        if self.path in assets and self._local_request():
+            name, mime = assets[self.path]
+            self.send(200, (ROOT / name).read_bytes(), mime + "; charset=utf-8")
         else:
             self.send(404, b"Not found", "text/plain")
 
     def do_POST(self):
-        allowed = {f"http://127.0.0.1:{self.server.server_port}", f"http://localhost:{self.server.server_port}"}
-        if self.path != "/api/run" or self.headers.get("Origin") not in allowed | {None}:
+        if self.path not in {"/api/run", "/api/review"} or not self._local_request():
             self.send(403, b"Forbidden", "text/plain")
             return
         try:
             size = int(self.headers.get("Content-Length", "0"))
             if not 0 < size <= 2048 or self.headers.get("Content-Type") != "application/json":
                 raise ValueError("Invalid request")
-            name = json.loads(self.rfile.read(size))["scenario"]
-            result = run_scenario(name)
+            body = json.loads(self.rfile.read(size))
+            if self.path == "/api/run":
+                result = run_scenario(body["scenario"])
+            else:
+                result = self.review_command(body)
         except (ValueError, KeyError, TypeError):
-            self.send(400, b"Invalid scenario request", "text/plain")
+            self.send(400, b"Invalid synthetic demo command", "text/plain")
             return
         self.send(200, json.dumps(result).encode(), "application/json")
+
+    def review_command(self, body):
+        action = body["action"]
+        if not hasattr(self.server, "review_sessions"):
+            self.server.review_sessions = {}
+        sessions = self.server.review_sessions
+        if action == "reset":
+            if set(body) != {"action", "fixture"}:
+                raise ValueError("Invalid reset")
+            data = review_fixture(body["fixture"])
+            token = secrets.token_urlsafe(20)
+            if len(sessions) >= 32:
+                del sessions[next(iter(sessions))]
+            sessions[token] = (ReviewSession(**data), data)
+            return {"session_id": token, "view": sessions[token][0].view()}
+        token = body["session_id"]
+        session, data = sessions[token]
+        keys = {"action", "session_id"}
+        if action in {"approve", "reject"}:
+            keys |= {"review_id", "reviewed_digest"}
+        elif action == "execute":
+            keys |= {"review_id"}
+        if set(body) != keys:
+            raise ValueError("Invalid command")
+        if action == "prepare":
+            view = session.prepare()
+        elif action in {"approve", "reject"}:
+            if not isinstance(body["review_id"], str) or not isinstance(body["reviewed_digest"], str):
+                raise ValueError("Invalid review selector")
+            view = session.decide(body["review_id"], action, body["reviewed_digest"])
+        elif action == "execute":
+            if not isinstance(body["review_id"], str):
+                raise ValueError("Invalid review selector")
+            view = session.execute(body["review_id"])
+        elif action == "change_source":
+            if not data["sources"]:
+                raise ValueError("No fixture source")
+            source = data["sources"][0]
+            source["observed_at"] = "2026-10-16" if source["observed_at"] == "2026-10-15" else "2026-10-15"
+            session.replace_inputs(sources=data["sources"])
+            view = session.view()
+        else:
+            raise ValueError("Unknown action")
+        return {"session_id": token, "view": view}
 
     def log_message(self, *_):
         pass

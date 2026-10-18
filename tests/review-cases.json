@@ -1,0 +1,1349 @@
+[
+  {
+    "name": "prepare never writes",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "execute without prepare",
+    "steps": [
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "execute without approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "explicit approval and one write",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "rejection is terminal",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "reject",
+        "status": "REJECTED",
+        "code": "EXPLICIT_REJECTION",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "duplicate execution writes once",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      },
+      {
+        "op": "execute",
+        "status": "REPLAYED",
+        "code": "ALREADY_APPLIED",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "wrong reviewed digest",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "digest": "foreign",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "another review id cannot execute",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "review_id": "review-9999",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "payload company changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "company_id"
+        ],
+        "value": "synthetic-company-002"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "payload value changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "claims",
+          1,
+          "value"
+        ],
+        "value": 3
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "source value changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "facts",
+          "open_roles"
+        ],
+        "value": 3
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "source URL changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "source_url"
+        ],
+        "value": "https://example.org/changed-fixture"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "source date changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-10-15"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "validation version changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "context",
+          "policy_version"
+        ],
+        "value": "evidence-review-v2.2"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "validation date changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "context",
+          "reference_date"
+        ],
+        "value": "2026-10-18"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "validation freshness changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "context",
+          "max_age_days"
+        ],
+        "value": 29
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "previous CRM value changes after approval",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "crm",
+          "synthetic-company-001",
+          "open_roles"
+        ],
+        "value": 9
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "changed source before decision",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-10-15"
+      },
+      {
+        "op": "approve",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "new snapshot needs fresh review",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-10-15"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      },
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "same request id changed content after write",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "company_id"
+        ],
+        "value": "synthetic-company-002"
+      },
+      {
+        "op": "prepare",
+        "status": "BLOCKED",
+        "code": "IDEMPOTENCY_CONFLICT",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "old approval cannot replay after source change",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-10-15"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "IDEMPOTENCY_CONFLICT",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "returned package cannot authorize",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "tamper_return"
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "missing source",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources"
+        ],
+        "value": []
+      },
+      {
+        "op": "prepare",
+        "issue": "MISSING_SOURCE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "invalid source URL",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "source_url"
+        ],
+        "value": "https://untrusted.invalid/x"
+      },
+      {
+        "op": "prepare",
+        "issue": "INVALID_SOURCE_URL",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "stale source",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2020-01-01"
+      },
+      {
+        "op": "prepare",
+        "issue": "STALE_EVIDENCE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "future source",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2027-01-01"
+      },
+      {
+        "op": "prepare",
+        "issue": "STALE_EVIDENCE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "invalid source date",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-02-30"
+      },
+      {
+        "op": "prepare",
+        "issue": "INVALID_SOURCE_DATE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "unknown source value",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "facts",
+          "open_roles"
+        ],
+        "value": null
+      },
+      {
+        "op": "prepare",
+        "issue": "UNKNOWN_VALUE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "unknown payload value",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "claims",
+          1,
+          "value"
+        ],
+        "value": null
+      },
+      {
+        "op": "prepare",
+        "issue": "UNKNOWN_VALUE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "unsupported value",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "claims",
+          1,
+          "value"
+        ],
+        "value": 999
+      },
+      {
+        "op": "prepare",
+        "issue": "UNSUPPORTED_CLAIM",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "forbidden tool",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "requested_tool"
+        ],
+        "value": "email.send"
+      },
+      {
+        "op": "prepare",
+        "issue": "TOOL_DENIED",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "BLOCKED",
+        "code": "APPROVAL_REQUIRED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "conflicting assertions",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources"
+        ],
+        "value": [
+          {
+            "id": "fixture-source-001",
+            "source_url": "https://example.org/synthetic-orchard-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "company_name": "Orchard Demo Company",
+              "open_roles": 2,
+              "country": "GB"
+            }
+          },
+          {
+            "id": "fixture-source-002",
+            "source_url": "https://example.org/second-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "open_roles": 5
+            }
+          }
+        ]
+      },
+      {
+        "op": "prepare",
+        "issue": "CONFLICTING_EVIDENCE",
+        "status": "BLOCKED",
+        "code": "EVIDENCE_BLOCKED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "duplicate source ID",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources"
+        ],
+        "value": [
+          {
+            "id": "fixture-source-001",
+            "source_url": "https://example.org/synthetic-orchard-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "company_name": "Orchard Demo Company",
+              "open_roles": 2,
+              "country": "GB"
+            }
+          },
+          {
+            "id": "fixture-source-001",
+            "source_url": "https://example.org/synthetic-orchard-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "company_name": "Orchard Demo Company",
+              "open_roles": 2,
+              "country": "GB"
+            }
+          }
+        ]
+      },
+      {
+        "op": "prepare",
+        "status": "BLOCKED",
+        "code": "DUPLICATE_SOURCE",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "duplicate claimed field",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "claims"
+        ],
+        "value": [
+          {
+            "field": "company_name",
+            "value": "Orchard Demo Company",
+            "source_id": "fixture-source-001"
+          },
+          {
+            "field": "company_name",
+            "value": "Orchard Demo Company",
+            "source_id": "fixture-source-001"
+          }
+        ]
+      },
+      {
+        "op": "prepare",
+        "status": "BLOCKED",
+        "code": "DUPLICATE_FIELD",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "reject cannot be executed via different digest",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "reject",
+        "status": "REJECTED",
+        "code": "EXPLICIT_REJECTION",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "digest": "foreign",
+        "status": "BLOCKED",
+        "code": "INVALID_TRANSITION",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "freshness boundary inclusive",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-09-17"
+      },
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "same-day source eligible",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources",
+          0,
+          "observed_at"
+        ],
+        "value": "2026-10-17"
+      },
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "consistent source addition changes evidence snapshot",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources"
+        ],
+        "value": [
+          {
+            "id": "fixture-source-001",
+            "source_url": "https://example.org/synthetic-orchard-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "company_name": "Orchard Demo Company",
+              "open_roles": 2,
+              "country": "GB"
+            }
+          },
+          {
+            "id": "fixture-source-002",
+            "source_url": "https://example.org/additional-evidence",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "open_roles": 2
+            }
+          }
+        ]
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "approval cannot transfer to another request",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "request_id"
+        ],
+        "value": "demo-request-002"
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "REVIEW_CHANGED",
+        "writes": 0
+      }
+    ]
+  },
+  {
+    "name": "CRM altered after application cannot silently replay",
+    "steps": [
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "crm",
+          "synthetic-company-001",
+          "open_roles"
+        ],
+        "value": 9
+      },
+      {
+        "op": "execute",
+        "status": "INVALIDATED",
+        "code": "IDEMPOTENCY_CONFLICT",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "snapshot canonical source order",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "sources"
+        ],
+        "value": [
+          {
+            "id": "fixture-source-002",
+            "source_url": "https://example.org/additional-evidence",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "open_roles": 2
+            }
+          },
+          {
+            "id": "fixture-source-001",
+            "source_url": "https://example.org/synthetic-orchard-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "company_name": "Orchard Demo Company",
+              "open_roles": 2,
+              "country": "GB"
+            }
+          }
+        ]
+      },
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "mutate",
+        "path": [
+          "sources"
+        ],
+        "value": [
+          {
+            "id": "fixture-source-001",
+            "source_url": "https://example.org/synthetic-orchard-fixture",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "company_name": "Orchard Demo Company",
+              "open_roles": 2,
+              "country": "GB"
+            }
+          },
+          {
+            "id": "fixture-source-002",
+            "source_url": "https://example.org/additional-evidence",
+            "observed_at": "2026-10-16",
+            "facts": {
+              "open_roles": 2
+            }
+          }
+        ]
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      }
+    ]
+  },
+  {
+    "name": "partial updates preserve unmentioned fields",
+    "steps": [
+      {
+        "op": "mutate",
+        "path": [
+          "request",
+          "claims"
+        ],
+        "value": [
+          {
+            "field": "open_roles",
+            "value": 2,
+            "source_id": "fixture-source-001"
+          }
+        ]
+      },
+      {
+        "op": "prepare",
+        "status": "AWAITING_APPROVAL",
+        "code": "REVIEW_READY",
+        "writes": 0
+      },
+      {
+        "op": "approve",
+        "status": "APPROVED",
+        "code": "EXPLICIT_APPROVAL",
+        "writes": 0
+      },
+      {
+        "op": "execute",
+        "status": "APPLIED",
+        "code": "LOCAL_WRITE_ONLY",
+        "writes": 1
+      }
+    ]
+  }
+]

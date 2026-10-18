@@ -1,0 +1,322 @@
+[
+  {
+    "mode": "python",
+    "case": "initial and prepare",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "initial and prepare",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "explicit approve then execute",
+    "status": "APPLIED",
+    "writes": 1
+  },
+  {
+    "mode": "python",
+    "case": "replay",
+    "status": "REPLAYED",
+    "writes": 1
+  },
+  {
+    "mode": "static",
+    "case": "explicit approve then execute",
+    "status": "APPLIED",
+    "writes": 1
+  },
+  {
+    "mode": "static",
+    "case": "replay",
+    "status": "REPLAYED",
+    "writes": 1
+  },
+  {
+    "mode": "python",
+    "case": "reject is terminal in UI",
+    "status": "REJECTED",
+    "writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "changed source invalidates approval, reviewed snapshot retained",
+    "status": "INVALIDATED",
+    "writes": 0,
+    "approval_digest": "028f8142b81f234940d4c533101ef8869109410db12b2595dadabbab55630ff1"
+  },
+  {
+    "mode": "static",
+    "case": "reject is terminal in UI",
+    "status": "REJECTED",
+    "writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "changed source invalidates approval, reviewed snapshot retained",
+    "status": "INVALIDATED",
+    "writes": 0,
+    "approval_digest": "028f8142b81f234940d4c533101ef8869109410db12b2595dadabbab55630ff1"
+  },
+  {
+    "mode": "python",
+    "case": "fresh review and new decision after invalidation",
+    "status": "APPLIED",
+    "writes": 1
+  },
+  {
+    "mode": "static",
+    "case": "fresh review and new decision after invalidation",
+    "status": "APPLIED",
+    "writes": 1
+  },
+  {
+    "mode": "python",
+    "case": "conflict evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "CONFLICTING_EVIDENCE"
+    ]
+  },
+  {
+    "mode": "python",
+    "case": "missing evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "MISSING_SOURCE"
+    ]
+  },
+  {
+    "mode": "python",
+    "case": "stale evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "STALE_EVIDENCE"
+    ]
+  },
+  {
+    "mode": "python",
+    "case": "unknown evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "UNKNOWN_VALUE"
+    ]
+  },
+  {
+    "mode": "static",
+    "case": "conflict evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "CONFLICTING_EVIDENCE"
+    ]
+  },
+  {
+    "mode": "static",
+    "case": "missing evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "MISSING_SOURCE"
+    ]
+  },
+  {
+    "mode": "static",
+    "case": "stale evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "STALE_EVIDENCE"
+    ]
+  },
+  {
+    "mode": "static",
+    "case": "unknown evidence not approvable",
+    "status": "BLOCKED",
+    "writes": 0,
+    "issues": [
+      "UNKNOWN_VALUE"
+    ]
+  },
+  {
+    "mode": "python",
+    "case": "legacy approval_required",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy approved",
+    "status": "APPLIED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy missing_source",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy unsupported_claim",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy forbidden_tool",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy stale_evidence",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy retry_success",
+    "status": "APPLIED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy retry_exhausted",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy replay",
+    "status": "REPLAYED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy approval_mismatch",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "python",
+    "case": "legacy conflict",
+    "status": "BLOCKED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy approval_required",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy approved",
+    "status": "APPLIED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy missing_source",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy unsupported_claim",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy forbidden_tool",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy stale_evidence",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy retry_success",
+    "status": "APPLIED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy retry_exhausted",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy replay",
+    "status": "REPLAYED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy approval_mismatch",
+    "status": "BLOCKED",
+    "writes": 0,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "legacy conflict",
+    "status": "BLOCKED",
+    "writes": 1,
+    "interactive_writes": 0
+  },
+  {
+    "mode": "static",
+    "case": "keyboard-only prepare acknowledge approve execute",
+    "status": "APPLIED",
+    "writes": 1
+  },
+  {
+    "mode": "static",
+    "case": "390px mobile applied receipt has no horizontal overflow after fix",
+    "status": "APPLIED",
+    "writes": 1,
+    "width": 390
+  },
+  {
+    "mode": "static",
+    "case": "1280px desktop grid and no horizontal overflow",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0,
+    "width": 1280
+  }
+]
