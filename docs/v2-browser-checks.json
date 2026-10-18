@@ -318,5 +318,19 @@
     "status": "AWAITING_APPROVAL",
     "writes": 0,
     "width": 1280
+  },
+  {
+    "mode": "python",
+    "case": "final adapter reload and matching default digest",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0,
+    "approval_digest": "028f8142b81f234940d4c533101ef8869109410db12b2595dadabbab55630ff1"
+  },
+  {
+    "mode": "static",
+    "case": "final adapter reload and matching default digest",
+    "status": "AWAITING_APPROVAL",
+    "writes": 0,
+    "approval_digest": "028f8142b81f234940d4c533101ef8869109410db12b2595dadabbab55630ff1"
   }
 ]

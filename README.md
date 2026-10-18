@@ -90,6 +90,16 @@ Both versions serve the **same `index.html`, `style.css` and `app.js` UI**. Thei
 
 The separate Pages project `tribloc-evidence-review` serves the V2 development branch. The repository's `main` branch and original V1 site are separate from that publication; public V2 hosting does not mean this PR was merged. Deployment details are recorded in [V2 validation and delivery](docs/V2_VALIDATION.md).
 
+For a separately authorized manual V2 deployment, copy the V2 config under the default filename in an isolated upload directory. Pages does not support a custom config path:
+
+```sh
+review_upload_dir=$(mktemp -d)
+cp wrangler.review.jsonc "$review_upload_dir/wrangler.jsonc"
+cp -R dist "$review_upload_dir/dist"
+wrangler --cwd "$review_upload_dir" pages deploy dist --project-name tribloc-evidence-review --branch feat/evidence-review-approval-v2
+```
+
+
 ## Reproduce validation
 
 ```sh

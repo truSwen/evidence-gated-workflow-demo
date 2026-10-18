@@ -15,12 +15,12 @@ The V2 Pages project is `tribloc-evidence-review`, using development branch `fea
 | Python regression, review and local HTTP adapter | 30 tests passed, including all 16 original tests and 42 shared V2 action sequences exercised as subtests | [Python report](v2-python-tests.txt), `test_demo.py`, `test_review.py`, `test_http.py` |
 | JavaScript and build | 61 tests passed: 12 original port tests, 48 V2 tests (42 shared parity cases plus 6 focused checks), 1 build test | [JavaScript report](v2-javascript-tests.txt) |
 | Full cross-language agreement | 42 V2 cases compare complete outputs, all digests, prior snapshots, events, decisions and state; original 11 scenarios still compare complete outputs | `review.test.js`, `browser-port.test.js`, `tests/review-cases.json` |
-| Local browser checks | 45 checks across Python UI and the static build | [Browser check record](v2-browser-checks.json) |
+| Local browser checks | 47 checks across Python UI and the static build | [Browser check record](v2-browser-checks.json) |
 | Build | Clean five-file static allowlist; shared HTML/CSS preserved; no backend fetch adapter bundled | `build.test.js`, `build.js` |
-| Hosted browser checks | Recorded separately after deployment | [Hosted check record](v2-hosted-checks.json) |
+| Hosted browser checks | 8 passed on the live V2 site; four assets match the local build byte-for-byte and deployed CSP checked | [Hosted check record](v2-hosted-checks.json) |
 | Whitespace, documentation links, private-data/secret patterns | Checked before commit | Delivery PR |
 
-The 45 browser checks include 20 interactive cases across the two adapters, all 11 legacy scenarios on each adapter (22), one keyboard-driven prepare/acknowledge/approve/execute flow, one mobile layout and one desktop layout check. A long decision digest initially overflowed the 390px mobile view; wrapping was corrected and the final mobile applied state had equal viewport/document widths. The 1280px layout had two columns and no horizontal overflow.
+The 47 browser checks include 20 interactive cases across the two adapters, all 11 legacy scenarios on each adapter (22), one keyboard-driven prepare/acknowledge/approve/execute flow, one mobile layout and one desktop layout check, plus two final reload/digest checks. A long decision digest initially overflowed the 390px mobile view; wrapping was corrected and the final mobile applied state had equal viewport/document widths. The 1280px layout had two columns and no horizontal overflow.
 
 The HTTP checks exercise actual loopback requests: no write on Prepare/Approve, explicit execution, source invalidation, session separation, foreign Host/Origin refusal, command-field refusal and the exact file-serving allowlist. These are development-runner checks, not a hardened server assessment.
 
@@ -44,6 +44,8 @@ These are captured from the running static build, not mockups:
 - [Prepared review package](v2-review.png)
 - [Changed evidence invalidates approval, zero writes](v2-invalidated.png)
 - [Mobile applied receipt](v2-mobile.png)
+- [Live V2 prepared package](v2-live-review.png)
+- [Live V2 invalidation, zero writes](v2-live-invalidated.png)
 
 ## Remaining limits and review guidance
 
@@ -53,4 +55,7 @@ The actor is simulated; neither the checkbox nor a hash authenticates a person o
 
 ## Deployment record
 
-Live V2: **https://tribloc-evidence-review.pages.dev/**. Build assets are uploaded explicitly from `dist/` with `wrangler.review.jsonc`; there is no Git-triggered automatic deployment in this change. The exact deployment commit and hosted checks are recorded in `v2-hosted-checks.json` after publication. The original V1 site remains a separate demo.
+Live V2: **https://tribloc-evidence-review.pages.dev/**. The validated implementation commit is `91b1f27247fa9bd9687806fb958fe0968a25c4a5`; its deployment URL is https://baa18a39.tribloc-evidence-review.pages.dev. Later commits add delivery evidence only. Build assets were copied from `dist/` into an isolated upload directory, with `wrangler.review.jsonc` copied there as the default `wrangler.jsonc`. There is no Git-triggered automatic deployment in this change. The exact asset hashes and eight live browser checks are recorded in `v2-hosted-checks.json`. The original V1 site remains a separate demo.
+
+
+Deployment tooling notes: the first upload attempt with a custom `--config` path was refused by Pages before upload. The isolated default-config upload succeeded. The first extra asset-comparison attempt with Python urllib could not use its local certificate store; the system curl comparison succeeded with TLS verification enabled. Neither failure was counted as a passing check or worked around by disabling TLS.

@@ -1,4 +1,75 @@
 {
-  "status": "NOT_RUN",
-  "reason": "Separate V2 Pages publication is pending; local validation is recorded independently."
+  "status": "PASS",
+  "recorded_on": "2026-10-18",
+  "public_url": "https://tribloc-evidence-review.pages.dev/",
+  "deployment_url": "https://baa18a39.tribloc-evidence-review.pages.dev",
+  "implementation_commit": "91b1f27247fa9bd9687806fb958fe0968a25c4a5",
+  "checks": [
+    {
+      "case": "load performs no approval or write",
+      "status": "READY",
+      "writes": 0
+    },
+    {
+      "case": "prepared package matches tested digest, controls gated",
+      "status": "AWAITING_APPROVAL",
+      "writes": 0,
+      "approval_digest": "028f8142b81f234940d4c533101ef8869109410db12b2595dadabbab55630ff1"
+    },
+    {
+      "case": "explicit approval then execute",
+      "status": "APPLIED",
+      "writes": 1
+    },
+    {
+      "case": "replay does not add a write",
+      "status": "REPLAYED",
+      "writes": 1
+    },
+    {
+      "case": "reject is terminal, controls disabled",
+      "status": "REJECTED",
+      "writes": 0
+    },
+    {
+      "case": "changed source invalidates prior approval",
+      "status": "INVALIDATED",
+      "writes": 0
+    },
+    {
+      "case": "fresh review needs fresh acknowledgement and decision",
+      "status": "AWAITING_APPROVAL",
+      "writes": 0,
+      "approval_digest": "ec7a16c5066a39984aaa5ddecfacc3af2cd82f5abba2f7ef28a1f4d026b49589"
+    },
+    {
+      "case": "contradictory sources block approval",
+      "status": "BLOCKED",
+      "writes": 0
+    }
+  ],
+  "asset_checks": [
+    {
+      "asset": "index.html",
+      "sha256": "805acf91ab619226952f38aa624bd6413191d19282add9183c2ce21eabfdfee8",
+      "matches_local_build": true
+    },
+    {
+      "asset": "style.css",
+      "sha256": "03da774a659e1d39b67077219a1b1d2fac776647a8b570f395c1c959e23ad1a9",
+      "matches_local_build": true
+    },
+    {
+      "asset": "entry.js",
+      "sha256": "a3f7a46ab00e35cebdf5a14bfc07ebc82ba27166fcfdc8a0629b361cb47aa7b7",
+      "matches_local_build": true
+    },
+    {
+      "asset": "404.html",
+      "sha256": "bb5eedbfad7b7fa3d7a2c1b044e84e7e0c9590e6b93b76a0f8d130c1730fbe41",
+      "matches_local_build": true
+    }
+  ],
+  "csp_checked": true,
+  "verification_note": "System curl verified TLS and fetched matching assets. The first Python urllib attempt could not use its local certificate store; no TLS verification bypass was used."
 }
