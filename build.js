@@ -1,11 +1,14 @@
-import{readFile,mkdir,writeFile}from'node:fs/promises';import{build}from'esbuild';
-await mkdir('dist',{recursive:true});let html=await readFile('index.html','utf8');
-const code=html.split('<script>')[1].split('</script>')[0];
-let app="import {runScenario} from './browser-workflow.js';\n"+code;
-app=app.replace("const response=await fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({scenario:el('scenario').value})});if(!response.ok)throw new Error('The local demo could not run this scenario.');const r=await response.json();","const r=await runScenario(el('scenario').value);");
-app=app.replace(" Start demo.py --serve and open the local address; opening this HTML directly does not start Python.",' Refresh this page before retrying.');
-await writeFile('browser-app.js',app);html=html.replace(/<script>[\s\S]*?<\/script>/,'<script type="module" src="app.js"></script>');
-html=html.replace('LOCAL DEMO · SYNTHETIC DATA','BROWSER DEMO · SYNTHETIC DATA').replace('Python validation, control flow, payload hashing and an in-memory write.','JavaScript validation, control flow, payload hashing and an in-memory write in this tab.').replace('Inspect the actual Python result','Inspect the actual browser result').replace('The Python test suite checks','The Python tests and browser-port parity checks cover');
-await writeFile('dist/index.html',html);await build({entryPoints:['browser-app.js'],bundle:true,format:'esm',platform:'browser',outfile:'dist/app.js',minify:true});
-await writeFile('dist/_headers',"/*\n  X-Content-Type-Options: nosniff\n  Referrer-Policy: no-referrer\n  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'\n");
+// One shared HTML + UI module, two explicit adapters. No UI code generation or
+// string replacement of backend calls. The server and build use /entry.js.
+import {mkdir,readFile,writeFile,rm} from 'node:fs/promises';
+import {build} from 'esbuild';
+await rm('dist',{recursive:true,force:true});
+await mkdir('dist',{recursive:true});
+for(const name of ['index.html','style.css'])await writeFile(`dist/${name}`,await readFile(name));
+await build({entryPoints:['browser-entry.js'],bundle:true,format:'esm',platform:'browser',outfile:'dist/entry.js',minify:true});
+await writeFile('dist/_headers',`/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: no-referrer
+  Content-Security-Policy: default-src 'self'; script-src 'self'; style-src 'self'; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'none'
+`);
 await writeFile('dist/404.html','<!doctype html><html lang="en"><title>Not found</title><a href="/">Open the synthetic workflow</a></html>');
